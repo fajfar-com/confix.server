@@ -10,6 +10,7 @@ func GetRouters(router *gin.Engine) *gin.Engine  {
 	group := router.Group("/v1")
 	{
 		group.GET("/ping", handler.GetPing())
+		group.GET("/applications/:app", handler.GetApplicationConfiguration())
 	}
 
 	return router
