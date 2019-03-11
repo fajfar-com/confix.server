@@ -5,8 +5,10 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func init(){
+var configManager configMng.ConfigurationManager
 
+func init(){
+	configManager = configMng.GetConfigurationManager()
 }
 
 func GetPing() gin.HandlerFunc {
@@ -20,8 +22,8 @@ func GetPing() gin.HandlerFunc {
 func GetApplicationConfiguration() gin.HandlerFunc {
 	return func(context *gin.Context) {
 		var appName = context.Param("app")
-		var appConfig = configMng.GetApplication(appName)
+		var app = configManager.GetApplication(appName)
 
-		context.JSON(200, appConfig.Configs)
+		context.JSON(200, app.Configs)
 	}
 }

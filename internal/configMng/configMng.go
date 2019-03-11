@@ -1,53 +1,52 @@
 package configMng
 
 import (
+	"github.com/fajfar-com/confix.server/internal"
 	"strings"
 )
 
-type Configuration struct {
-	Key string
-	Value string
+type ConfigurationManager interface {
+	GetApplication(appName string) internal.Application
 }
 
-type Application struct {
-	Name string
-	Configs []Configuration
+type configurationManager struct {
+	applications []internal.Application
 }
 
-var applications []Application
-
-func init(){
-	applications = []Application{{
-		Name: "test",
-		Configs: []Configuration{
-			{
-				Key:"name",
-				Value:"Name",
+func GetConfigurationManager() ConfigurationManager {
+	return configurationManager{
+		applications: []internal.Application{{
+			Name: "test",
+			Configs: []internal.Configuration{
+				{
+					Key:"config1",
+					Value:"value1",
+				},
+				{
+					Key:"config2",
+					Value:"value2",
+				},
+				{
+					Key:"config3",
+					Value:"value3",
+				},
+				{
+					Key:"config4",
+					Value:"value4",
+				},
 			},
-		},
-	}}
+		}},
+	}
 }
 
-func  GetApplication(appName string) Application {
-	for _, a := range applications{
+func (cm configurationManager) GetApplication(appName string) internal.Application {
+	for _, a := range cm.applications{
 		if strings.Compare(a.Name, appName) == 0{
 			return a
 		}
 	}
-	return Application{
+	return internal.Application{
 		Name: appName,
-		Configs: []Configuration{},
-	}
-}
-
-func (a Application) GetConfigByName(name string) Configuration {
-	for _, c := range a.Configs{
-		if strings.Compare(name, c.Key) == 0{
-			return c
-		}
-	}
-	return Configuration{
-		Key:name,
-		Value:nil,
+		Configs: []internal.Configuration{},
 	}
 }

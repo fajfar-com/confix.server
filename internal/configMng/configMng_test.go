@@ -15,3 +15,7 @@ func TestGetApplication(t *testing.T) {
 		Value:"Name",
 	})
 }
+
+func TestApplication_GetConfigByName(t *testing.T) {
+
+}
